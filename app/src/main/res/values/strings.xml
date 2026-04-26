@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ProtoAquaponik</string>
+
+    <string name="nav_beranda">Beranda</string>
+    <string name="nav_sensor">Sensor</string>
+    <string name="nav_riwayat">Riwayat</string>
+    <string name="nav_warning">Peringatan</string>
+
+    <string name="realtime_title">Realtime Data Kolam Aquaponik</string>
+    <string name="label_kolam_terpilih">Kolam Terpilih</string>
+
+    <string name="header_title">Aquaponik, Desa Cibiru Wetan</string>
+    <string name="tag_kolam">KOLAM</string>
+    <string name="status_aktif">Aktif</string>
+    <string name="status_offline">Offline</string>
+    <string name="label_ppm">PPM</string>
+    <string name="status_air">Status Air</string>
+    <string name="status_tds">Status TDS</string>
+    <string name="status_pompa">Pompa</string>
+    <string name="status_buzzer">Status Buzzer</string>
+    <string name="ambang_ppm">Ambang PPM</string>
+
+</resources>

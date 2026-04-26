@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1083931533158",
+    "firebase_url": "https://realtimemonitoring-97c1b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "realtimemonitoring-97c1b",
+    "storage_bucket": "realtimemonitoring-97c1b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083931533158:android:fcadf1f5ee2c7002d5b2a7",
+        "android_client_info": {
+          "package_name": "com.cibiruwetan.protoaqiaponik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXAQL5QY9tYrhdl-jtWn2eW7inVHEiFzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
