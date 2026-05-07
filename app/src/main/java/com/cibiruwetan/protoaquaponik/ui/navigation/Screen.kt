@@ -4,7 +4,7 @@ sealed class Screen(val route: String) {
     object KolamOverview : Screen("kolam_overview")
     object Realtime : Screen("realtime/{kolamId}")
     object Sensor : Screen("sensor/{kolamId}")
-    object Riwayat : Screen("riwayat")
+    object Riwayat : Screen("riwayat/{kolamId}")
     object Warning : Screen("peringatan")
 }
 

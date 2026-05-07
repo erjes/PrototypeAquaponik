@@ -22,17 +22,23 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.cibiruwetan.protoaquaponik.R
 import com.cibiruwetan.protoaquaponik.ui.navigation.Screen
 import com.cibiruwetan.protoaquaponik.ui.theme.ToscaPrimary
+import com.cibiruwetan.protoaquaponik.ui.viewmodel.SharedViewModel
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
+fun BottomNavigationBar(
+    navController: NavHostController,
+    sharedViewModel: SharedViewModel
+) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val activeKolamId = sharedViewModel.selectedKolamId.value
+
     val items = listOf(
-        NavigationItem(stringResource(id = R.string.nav_beranda), Icons.Default.Home, Screen.KolamOverview.route),
-        NavigationItem(stringResource(id = R.string.nav_sensor), Icons.Default.Waves, Screen.Sensor.route),
-        NavigationItem(stringResource(id = R.string.nav_riwayat), Icons.Default.Speed, Screen.Riwayat.route),
-        NavigationItem(stringResource(id = R.string.nav_warning), Icons.Default.History, Screen.Warning.route)
+        NavigationItem(stringResource(R.string.nav_beranda), Icons.Default.Home, Screen.KolamOverview.route),
+        NavigationItem(stringResource(R.string.nav_sensor), Icons.Default.Waves, "sensor/$activeKolamId"),
+        NavigationItem(stringResource(R.string.nav_riwayat), Icons.Default.Speed, "riwayat/$activeKolamId"),
+        NavigationItem(stringResource(R.string.nav_warning), Icons.Default.History, Screen.Warning.route)
     )
 
     NavigationBar(
@@ -40,7 +46,10 @@ fun BottomNavigationBar(navController: NavHostController) {
         tonalElevation = 8.dp
     ) {
         items.forEach { item ->
-            val isSelected = currentRoute == item.route
+            val isSelected = when {
+                item.route.startsWith("sensor") -> currentRoute?.startsWith("sensor") == true
+                else -> currentRoute == item.route
+            }
 
             NavigationBarItem(
                 icon = {
@@ -59,15 +68,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                 },
                 selected = isSelected,
                 onClick = {
-                    if (currentRoute != item.route) {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
+                    if (item.route.contains("{kolamId}")) {
+                        val actualRoute = item.route.replace("{kolamId}", sharedViewModel.selectedKolamId.value)
+                        navController.navigate(actualRoute)
+                    } else {
+                        navController.navigate(item.route)
                         }
-                    }
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = ToscaPrimary.copy(alpha = 0.1f)
@@ -76,5 +82,4 @@ fun BottomNavigationBar(navController: NavHostController) {
         }
     }
 }
-
 data class NavigationItem(val title: String, val icon: ImageVector, val route: String)

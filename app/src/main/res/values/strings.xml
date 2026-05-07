@@ -12,12 +12,33 @@
     <string name="header_title">Aquaponik, Desa Cibiru Wetan</string>
     <string name="tag_kolam">KOLAM</string>
     <string name="status_aktif">Aktif</string>
-    <string name="status_offline">Offline</string>
+    <string name="status_nonaktif">Nonaktif</string>
     <string name="label_ppm">PPM</string>
     <string name="status_air">Status Air</string>
+    <string name="label_list_sensor">Daftar Sensor Terpasang</string>
     <string name="status_tds">Status TDS</string>
     <string name="status_pompa">Pompa</string>
     <string name="status_buzzer">Status Buzzer</string>
-    <string name="ambang_ppm">Ambang PPM</string>
+    <string name="status_normal">Normal</string>
+    <string name="status_abnormal">Abnormal</string>
+    <string name="last_update">Update terakhir: %1$s</string>
+
+    <string name="label_grafik_ppm">Grafik Kadar PPM (24 Jam Terakhir)</string>
+    <string name="empty_chart">Data grafik tidak tersedia</string>
+
+    <string name="label_recent_notifications">Notifikasi Terbaru</string>
+    <string name="desc_sensor_mati">Sensor ultrasonik pada %1$s terputus atau mati.</string>
+    <string name="desc_ppm_tidak_wajar">Kadar PPM pada %1$s berada di luar ambang batas (%2$d PPM).</string>
+    <string name="status_critical">KRITIS</string>
+
+
+    <string name="title_beranda">Beranda Aquaponik</string>
+    <string name="title_riwayat">Riwayat Kondisi</string>
+    <string name="title_sensor">Detail Sensor</string>
+    <string name="title_warning">Pusat Peringatan</string>
+
+    <string name="header_location">Cibiru Wetan, Bandung</string>
+    <string name="content_description_loading">Memuat data kolam</string>
+    <string name="label_lokasi">Lokasi: %1$s</string>
 
 </resources>
