@@ -3,7 +3,11 @@ package com.cibiruwetan.protoaquaponik.data
 import com.cibiruwetan.protoaquaponik.model.HistoryPoint
 import com.cibiruwetan.protoaquaponik.model.Kolam
 import com.cibiruwetan.protoaquaponik.model.KolamTelemetry
+import com.cibiruwetan.protoaquaponik.model.WarningLog
 import com.google.firebase.database.DataSnapshot
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 const val TDS_MIN_NORMAL = 10
 const val TDS_MAX_NORMAL = 1000
@@ -51,6 +55,24 @@ fun DataSnapshot.toHistoryPoints(nowMillis: Long = System.currentTimeMillis()): 
         .takeLast(MAX_CHART_POINTS)
 }
 
+fun DataSnapshot.toTdsWarningLogs(
+    kolamId: String,
+    nowMillis: Long = System.currentTimeMillis()
+): List<WarningLog> {
+    return toHistoryPoints(nowMillis)
+        .filter { it.ppm.isTdsAnomaly() }
+        .map { point ->
+            WarningLog(
+                id = "${kolamId}_${point.id}_${point.timestamp}",
+                kolamId = kolamId,
+                ppm = point.ppm,
+                timestamp = point.timestamp,
+                timeLabel = point.toWarningTimeLabel()
+            )
+        }
+        .sortedByDescending { it.timestamp }
+}
+
 private fun DataSnapshot.toHistoryPoint(fallbackIndex: Int): HistoryPoint? {
     val ppm = child("ppm").intValue()
         ?: child("tds_simulasi").intValue()
@@ -84,6 +106,12 @@ private fun DataSnapshot.toCurrentHistoryPoint(nowMillis: Long): HistoryPoint? {
         ppm = ppm,
         timestamp = nowMillis
     )
+}
+
+private fun HistoryPoint.toWarningTimeLabel(): String {
+    if (label.isNotBlank()) return label
+    if (timestamp <= MIN_REAL_TIMESTAMP) return ""
+    return SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(timestamp))
 }
 
 private fun DataSnapshot.stringValue(): String? = value as? String

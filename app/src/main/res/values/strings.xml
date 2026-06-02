@@ -30,6 +30,10 @@
     <string name="desc_sensor_mati">Sensor ultrasonik pada %1$s terputus atau mati.</string>
     <string name="desc_ppm_tidak_wajar">Kadar PPM pada %1$s berada di luar ambang batas (%2$d PPM).</string>
     <string name="status_critical">KRITIS</string>
+    <string name="warning_tds_anomaly_title">TDS simulasi tidak wajar</string>
+    <string name="warning_tds_anomaly_body">Nilai terakhir tercatat %1$d ppm</string>
+    <string name="empty_warning_log">Belum ada anomali TDS pada kolam ini</string>
+    <string name="label_time_unknown">Waktu tidak tersedia</string>
 
 
     <string name="title_beranda">Beranda Aquaponik</string>
