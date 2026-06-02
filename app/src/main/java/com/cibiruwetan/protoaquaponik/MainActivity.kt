@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cibiruwetan.protoaquaponik.service.NotificationHelper
 import com.cibiruwetan.protoaquaponik.ui.screen.MainPage
 import com.cibiruwetan.protoaquaponik.ui.theme.AquaponikTheme
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.SharedViewModel
@@ -18,6 +19,7 @@ import com.cibiruwetan.protoaquaponik.ui.viewmodel.SharedViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NotificationHelper.ensureAlertChannel(this)
         setContent {
             AquaponikTheme {
                 RequestNotificationPermission()

@@ -44,5 +44,10 @@
     <string name="header_location">Cibiru Wetan, Bandung</string>
     <string name="content_description_loading">Memuat data kolam</string>
     <string name="label_lokasi">Lokasi: %1$s</string>
+    <string name="notification_alert_channel_id">kolam_alert_channel</string>
+    <string name="notification_alert_channel_name">Peringatan Kolam</string>
+    <string name="notification_alert_channel_description">Notifikasi kondisi kolam aquaponik</string>
+    <string name="notification_default_title">Peringatan Kolam</string>
+    <string name="notification_default_body">Ada masalah di kolam aquaponik</string>
 
 </resources>
