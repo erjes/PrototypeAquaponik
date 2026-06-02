@@ -43,6 +43,7 @@
     <string name="title_sensor">Detail Sensor</string>
     <string name="title_warning">Pusat Peringatan</string>
     <string name="title_fish_panel">Panel Ikan</string>
+    <string name="title_plant_harvest">Panen Tanaman</string>
 
     <string name="header_location">Cibiru Wetan, Bandung</string>
     <string name="content_description_loading">Memuat data kolam</string>
@@ -73,5 +74,18 @@
     <string name="fish_panel_feed_value">%1$d gram pakan</string>
     <string name="fish_panel_mortality_value">%1$d ekor mati</string>
     <string name="form_error_required_numbers">Jumlah ikan dan pakan wajib diisi dengan angka</string>
+    <string name="harvest_action_title">Panen Tanaman</string>
+    <string name="harvest_action_description">Catat jenis tanaman, berat, dan jumlah ikat</string>
+    <string name="harvest_total_record">Total Panen Tercatat</string>
+    <string name="harvest_weight_value">%.1f kg</string>
+    <string name="harvest_bundle_unit_value">%1$d ikat</string>
+    <string name="harvest_form_title">Tambah Catatan Panen</string>
+    <string name="harvest_crop_label">Nama tanaman</string>
+    <string name="harvest_weight_label">Berat panen (kg)</string>
+    <string name="harvest_bundle_label">Jumlah ikat</string>
+    <string name="action_save_harvest">Simpan Catatan Panen</string>
+    <string name="harvest_history_title">Riwayat Panen Tanaman</string>
+    <string name="harvest_empty">Belum ada catatan panen untuk kolam ini</string>
+    <string name="form_error_harvest_required">Nama tanaman dan berat panen wajib diisi</string>
 
 </resources>

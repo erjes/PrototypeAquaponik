@@ -4,6 +4,7 @@ import com.cibiruwetan.protoaquaponik.model.HistoryPoint
 import com.cibiruwetan.protoaquaponik.model.FishPanelRecord
 import com.cibiruwetan.protoaquaponik.model.Kolam
 import com.cibiruwetan.protoaquaponik.model.KolamTelemetry
+import com.cibiruwetan.protoaquaponik.model.PlantHarvestRecord
 import com.cibiruwetan.protoaquaponik.model.WarningLog
 import com.google.firebase.database.DataSnapshot
 import java.text.SimpleDateFormat
@@ -85,6 +86,17 @@ fun DataSnapshot.toFishPanelRecord(): FishPanelRecord {
     )
 }
 
+fun DataSnapshot.toPlantHarvestRecord(): PlantHarvestRecord {
+    return PlantHarvestRecord(
+        id = key.orEmpty(),
+        namaTanaman = child("namaTanaman").stringValue().orEmpty(),
+        beratKg = child("beratKg").doubleValue() ?: 0.0,
+        jumlahIkat = child("jumlahIkat").intValue() ?: 0,
+        catatan = child("catatan").stringValue().orEmpty(),
+        createdAt = child("createdAt").longValue() ?: 0L
+    )
+}
+
 private fun DataSnapshot.toHistoryPoint(fallbackIndex: Int): HistoryPoint? {
     val ppm = child("ppm").intValue()
         ?: child("tds_simulasi").intValue()
@@ -148,6 +160,17 @@ private fun DataSnapshot.longValue(): Long? {
         is Double -> rawValue.toLong()
         is Float -> rawValue.toLong()
         is String -> rawValue.toLongOrNull()
+        else -> null
+    }
+}
+
+private fun DataSnapshot.doubleValue(): Double? {
+    return when (val rawValue = value) {
+        is Double -> rawValue
+        is Float -> rawValue.toDouble()
+        is Long -> rawValue.toDouble()
+        is Int -> rawValue.toDouble()
+        is String -> rawValue.replace(',', '.').toDoubleOrNull()
         else -> null
     }
 }

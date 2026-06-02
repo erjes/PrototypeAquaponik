@@ -28,6 +28,7 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
         currentRoute == Screen.Riwayat.route || currentRoute?.startsWith("riwayat") == true -> stringResource(R.string.title_riwayat)
         currentRoute == Screen.Warning.route -> stringResource(R.string.title_warning)
         currentRoute?.startsWith("ikan") == true -> stringResource(R.string.title_fish_panel)
+        currentRoute?.startsWith("panen") == true -> stringResource(R.string.title_plant_harvest)
         currentRoute?.startsWith("sensor") == true -> stringResource(R.string.title_sensor)
         currentRoute?.startsWith("realtime") == true -> stringResource(R.string.realtime_title)
         else -> stringResource(R.string.app_name)
@@ -38,7 +39,8 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
     val isMonitoringPage = currentRoute?.startsWith("sensor") == true ||
             currentRoute == Screen.Riwayat.route ||
             currentRoute == Screen.Warning.route ||
-            currentRoute?.startsWith("ikan") == true
+            currentRoute?.startsWith("ikan") == true ||
+            currentRoute?.startsWith("panen") == true
 
     val showBottomBar = currentRoute == Screen.KolamOverview.route || isMonitoringPage
     val showDropdown = isMonitoringPage && sharedViewModel.daftarKolam.isNotEmpty()

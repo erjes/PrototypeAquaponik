@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -119,6 +120,16 @@ fun KolamOverviewPage(
                             onClick = {
                                 sharedViewModel.updateSelectedKolam(activeKolamId)
                                 navController.navigate("ikan/$activeKolamId")
+                            }
+                        )
+                        RecordingActionCard(
+                            title = stringResource(R.string.harvest_action_title),
+                            description = stringResource(R.string.harvest_action_description),
+                            icon = Icons.Default.CheckCircle,
+                            enabled = activeKolamId.isNotBlank(),
+                            onClick = {
+                                sharedViewModel.updateSelectedKolam(activeKolamId)
+                                navController.navigate("panen/$activeKolamId")
                             }
                         )
                     }
