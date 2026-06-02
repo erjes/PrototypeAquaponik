@@ -36,8 +36,8 @@ fun BottomNavigationBar(
 
     val items = listOf(
         NavigationItem(stringResource(R.string.nav_beranda), Icons.Default.Home, Screen.KolamOverview.route),
-        NavigationItem(stringResource(R.string.nav_sensor), Icons.Default.Waves, "sensor/$activeKolamId"),
-        NavigationItem(stringResource(R.string.nav_riwayat), Icons.Default.Speed, "riwayat/$activeKolamId"),
+        NavigationItem(stringResource(R.string.nav_sensor), Icons.Default.Waves, "sensor/$activeKolamId", requiresKolam = true),
+        NavigationItem(stringResource(R.string.nav_riwayat), Icons.Default.Speed, "riwayat/$activeKolamId", requiresKolam = true),
         NavigationItem(stringResource(R.string.nav_warning), Icons.Default.History, Screen.Warning.route)
     )
 
@@ -48,8 +48,10 @@ fun BottomNavigationBar(
         items.forEach { item ->
             val isSelected = when {
                 item.route.startsWith("sensor") -> currentRoute?.startsWith("sensor") == true
+                item.route.startsWith("riwayat") -> currentRoute?.startsWith("riwayat") == true
                 else -> currentRoute == item.route
             }
+            val isEnabled = !item.requiresKolam || activeKolamId.isNotBlank()
 
             NavigationBarItem(
                 icon = {
@@ -68,13 +70,11 @@ fun BottomNavigationBar(
                 },
                 selected = isSelected,
                 onClick = {
-                    if (item.route.contains("{kolamId}")) {
-                        val actualRoute = item.route.replace("{kolamId}", sharedViewModel.selectedKolamId.value)
-                        navController.navigate(actualRoute)
-                    } else {
+                    if (isEnabled) {
                         navController.navigate(item.route)
-                        }
+                    }
                 },
+                enabled = isEnabled,
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = ToscaPrimary.copy(alpha = 0.1f)
                 )
@@ -82,4 +82,9 @@ fun BottomNavigationBar(
         }
     }
 }
-data class NavigationItem(val title: String, val icon: ImageVector, val route: String)
+data class NavigationItem(
+    val title: String,
+    val icon: ImageVector,
+    val route: String,
+    val requiresKolam: Boolean = false
+)

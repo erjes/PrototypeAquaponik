@@ -25,7 +25,7 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
 
     val title = when {
         currentRoute == Screen.KolamOverview.route -> stringResource(R.string.title_beranda)
-        currentRoute == Screen.Riwayat.route -> stringResource(R.string.title_riwayat)
+        currentRoute == Screen.Riwayat.route || currentRoute?.startsWith("riwayat") == true -> stringResource(R.string.title_riwayat)
         currentRoute == Screen.Warning.route -> stringResource(R.string.title_warning)
         currentRoute?.startsWith("sensor") == true -> stringResource(R.string.title_sensor)
         currentRoute?.startsWith("realtime") == true -> stringResource(R.string.realtime_title)
@@ -39,7 +39,13 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
             currentRoute == Screen.Warning.route
 
     val showBottomBar = currentRoute == Screen.KolamOverview.route || isMonitoringPage
-    val showDropdown = isMonitoringPage
+    val showDropdown = isMonitoringPage && sharedViewModel.daftarKolam.isNotEmpty()
+    val selectedKolamLabel = when {
+        sharedViewModel.isLoadingKolam.value -> stringResource(R.string.content_description_loading)
+        sharedViewModel.hasDatabaseError.value -> stringResource(R.string.state_database_error)
+        sharedViewModel.daftarKolam.isEmpty() -> stringResource(R.string.state_no_pond)
+        else -> sharedViewModel.selectedKolamId.value
+    }
 
     Scaffold(
         topBar = {
@@ -47,7 +53,7 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
                 title = title,
                 showBackButton = canNavigateBack,
                 showDropdown = showDropdown,
-                selectedId = sharedViewModel.selectedKolamId.value,
+                selectedId = selectedKolamLabel,
                 listOptions = sharedViewModel.daftarKolam,
                 onOptionSelected = { sharedViewModel.updateSelectedKolam(it) },
                 onBackClick = { navController.navigateUp() }

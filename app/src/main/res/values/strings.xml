@@ -25,6 +25,7 @@
 
     <string name="label_grafik_ppm">Grafik Kadar PPM (24 Jam Terakhir)</string>
     <string name="empty_chart">Data grafik tidak tersedia</string>
+    <string name="riwayat_ppm_value">%1$d ppm</string>
 
     <string name="label_recent_notifications">Notifikasi Terbaru</string>
     <string name="desc_sensor_mati">Sensor ultrasonik pada %1$s terputus atau mati.</string>
@@ -44,6 +45,11 @@
     <string name="header_location">Cibiru Wetan, Bandung</string>
     <string name="content_description_loading">Memuat data kolam</string>
     <string name="label_lokasi">Lokasi: %1$s</string>
+    <string name="content_description_back">Kembali</string>
+    <string name="content_description_pond_selector">Pilih kolam</string>
+    <string name="state_database_error">Database bermasalah</string>
+    <string name="state_no_pond">Belum ada kolam</string>
+    <string name="label_location_unknown">Lokasi belum tersedia</string>
     <string name="notification_alert_channel_id">kolam_alert_channel</string>
     <string name="notification_alert_channel_name">Peringatan Kolam</string>
     <string name="notification_alert_channel_description">Notifikasi kondisi kolam aquaponik</string>

@@ -1,6 +1,5 @@
 package com.cibiruwetan.protoaquaponik.model
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class Sensor(
@@ -8,5 +7,5 @@ data class Sensor(
     val value: String,
     val unit: String,
     val icon: ImageVector,
-    val statusColor: Color
+    val isNormal: Boolean
 )

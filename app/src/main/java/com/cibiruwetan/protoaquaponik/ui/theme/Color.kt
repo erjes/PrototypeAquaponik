@@ -3,7 +3,7 @@ package com.cibiruwetan.protoaquaponik.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val ToscaPrimary = Color(0xFF4DB6AC)
+val ToscaPrimary = Color(0xFF00897B)
 val ToscaDark = Color(0xFF00867D)
 val BackgroundLight = Color(0xFFF1F8E9)
 val CardWhite = Color(0xFFFFFFFF)

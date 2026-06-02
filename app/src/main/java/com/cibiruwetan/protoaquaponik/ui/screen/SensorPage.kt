@@ -18,11 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cibiruwetan.protoaquaponik.R
+import com.cibiruwetan.protoaquaponik.data.isTdsNormal
+import com.cibiruwetan.protoaquaponik.data.toKolamTelemetry
+import com.cibiruwetan.protoaquaponik.model.KolamTelemetry
 import com.cibiruwetan.protoaquaponik.model.Sensor
 import com.cibiruwetan.protoaquaponik.ui.components.SensorItemCard
 import com.cibiruwetan.protoaquaponik.ui.theme.BackgroundLight
-import com.cibiruwetan.protoaquaponik.ui.theme.StatusGreen
-import com.cibiruwetan.protoaquaponik.ui.theme.StatusRed
 import com.cibiruwetan.protoaquaponik.ui.theme.ToscaPrimary
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.SharedViewModel
 import com.google.firebase.Firebase
@@ -40,58 +41,55 @@ fun SensorPage(
     sharedViewModel: SharedViewModel
 ) {
     val kolamId by sharedViewModel.selectedKolamId
-
-    val database = remember(kolamId) {
-        Firebase.database.getReference("kolam/$kolamId")
-    }
-
-
-    val tdsValue = remember { mutableIntStateOf(0) }
-    val isBuzzerActive = remember { mutableStateOf(false) }
-    val isPumpActive = remember { mutableStateOf(false) }
-    val locationValue = remember { mutableStateOf("") }
+    var telemetry by remember { mutableStateOf(KolamTelemetry()) }
     var lastUpdate by remember { mutableStateOf("-") }
 
     val txtAktif = stringResource(R.string.status_aktif)
     val txtNonaktif = stringResource(R.string.status_nonaktif)
+    val locationLabel = telemetry.lokasi.ifBlank { stringResource(R.string.label_location_unknown) }
+    val tdsIsNormal = telemetry.tdsSimulasi.isTdsNormal()
 
     DisposableEffect(kolamId) {
-        val listener = database.addValueEventListener(object : ValueEventListener {
+        if (kolamId.isBlank()) {
+            telemetry = KolamTelemetry()
+            onDispose {}
+        } else {
+            val database = Firebase.database.getReference("kolam/$kolamId")
+            val listener = database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                tdsValue.intValue = snapshot.child("tds_simulasi").getValue(Int::class.java) ?: 0
-                isBuzzerActive.value = snapshot.child("status_buzzer").getValue(Boolean::class.java) ?: false
-                isPumpActive.value = snapshot.child("status_pompa").getValue(Boolean::class.java) ?: false
-                locationValue.value = snapshot.child("lokasi").getValue(String::class.java) ?: ""
+                    telemetry = snapshot.toKolamTelemetry()
 
                 val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                 lastUpdate = sdf.format(Date())
             }
+
             override fun onCancelled(error: DatabaseError) {}
         })
-        onDispose { database.removeEventListener(listener) }
+            onDispose { database.removeEventListener(listener) }
+        }
     }
 
     val sensorList = listOf(
         Sensor(
             name = stringResource(R.string.status_tds),
-            value = tdsValue.intValue.toString(),
+            value = telemetry.tdsSimulasi.toString(),
             unit = stringResource(R.string.label_ppm),
             icon = Icons.Default.Waves,
-            statusColor = if (tdsValue.intValue < 10) StatusRed else StatusGreen
+            isNormal = tdsIsNormal
         ),
         Sensor(
             name = stringResource(R.string.status_buzzer),
-            value = if (isBuzzerActive.value) txtAktif else txtNonaktif ,
+            value = if (telemetry.statusBuzzer) txtAktif else txtNonaktif,
             unit = "",
             icon = Icons.Default.Alarm,
-            statusColor = if (!isBuzzerActive.value) StatusRed else StatusGreen
+            isNormal = !telemetry.statusBuzzer
         ),
         Sensor(
             name = stringResource(R.string.status_pompa),
-            value = if (isPumpActive.value) txtAktif else txtNonaktif,
+            value = if (telemetry.statusPompa) txtAktif else txtNonaktif,
             unit = "",
             icon = Icons.Default.HeatPump,
-            statusColor = if (!isPumpActive.value) StatusRed else StatusGreen
+            isNormal = telemetry.statusPompa
         )
     )
 
@@ -112,7 +110,7 @@ fun SensorPage(
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = stringResource(R.string.label_lokasi, locationValue.value),
+                    text = stringResource(R.string.label_lokasi, locationLabel),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                     color = Color.White.copy(alpha = 0.9f),
