@@ -34,7 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cibiruwetan.protoaquaponik.R
 import com.cibiruwetan.protoaquaponik.ui.components.KolamCard
-import com.cibiruwetan.protoaquaponik.ui.components.RecordingActionCard
+import com.cibiruwetan.protoaquaponik.ui.components.RecordingMenu
 import com.cibiruwetan.protoaquaponik.ui.theme.BackgroundLight
 import com.cibiruwetan.protoaquaponik.ui.theme.ToscaPrimary
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.KolamViewModel
@@ -105,29 +105,18 @@ fun KolamOverviewPage(
                 item {
                     Column(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.recording_section_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        RecordingActionCard(
-                            title = stringResource(R.string.fish_panel_action_title),
-                            description = stringResource(R.string.fish_panel_action_description),
-                            icon = Icons.Default.WaterDrop,
+                        RecordingMenu(
+                            selectedKolamId = activeKolamId,
                             enabled = activeKolamId.isNotBlank(),
-                            onClick = {
+                            fishIcon = Icons.Default.WaterDrop,
+                            plantIcon = Icons.Default.CheckCircle,
+                            onFishHarvestClick = {
                                 sharedViewModel.updateSelectedKolam(activeKolamId)
                                 navController.navigate("ikan/$activeKolamId")
-                            }
-                        )
-                        RecordingActionCard(
-                            title = stringResource(R.string.harvest_action_title),
-                            description = stringResource(R.string.harvest_action_description),
-                            icon = Icons.Default.CheckCircle,
-                            enabled = activeKolamId.isNotBlank(),
-                            onClick = {
+                            },
+                            onPlantHarvestClick = {
                                 sharedViewModel.updateSelectedKolam(activeKolamId)
                                 navController.navigate("panen/$activeKolamId")
                             }
