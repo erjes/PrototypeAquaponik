@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.cibiruwetan.protoaquaponik.ui.screen.KolamOverviewPage
+import com.cibiruwetan.protoaquaponik.ui.screen.FishPanelPage
 import com.cibiruwetan.protoaquaponik.ui.screen.RealtimePage
 import com.cibiruwetan.protoaquaponik.ui.screen.RiwayatPage
 import com.cibiruwetan.protoaquaponik.ui.screen.SensorPage
@@ -77,6 +78,19 @@ fun AppNavigation(
 
         composable(Screen.Warning.route) {
             WarningPage(navController = navController, sharedViewModel = sharedViewModel)
+        }
+
+        composable(
+            route = Screen.FishPanel.route,
+            arguments = listOf(navArgument("kolamId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val idFromArgs = backStackEntry.arguments?.getString("kolamId")
+
+            LaunchedEffect(idFromArgs) {
+                idFromArgs?.let { sharedViewModel.updateSelectedKolam(it) }
+            }
+
+            FishPanelPage(sharedViewModel = sharedViewModel)
         }
     }
 }

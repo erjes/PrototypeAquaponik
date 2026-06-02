@@ -1,6 +1,7 @@
 package com.cibiruwetan.protoaquaponik.data
 
 import com.cibiruwetan.protoaquaponik.model.HistoryPoint
+import com.cibiruwetan.protoaquaponik.model.FishPanelRecord
 import com.cibiruwetan.protoaquaponik.model.Kolam
 import com.cibiruwetan.protoaquaponik.model.KolamTelemetry
 import com.cibiruwetan.protoaquaponik.model.WarningLog
@@ -71,6 +72,17 @@ fun DataSnapshot.toTdsWarningLogs(
             )
         }
         .sortedByDescending { it.timestamp }
+}
+
+fun DataSnapshot.toFishPanelRecord(): FishPanelRecord {
+    return FishPanelRecord(
+        id = key.orEmpty(),
+        jumlahIkan = child("jumlahIkan").intValue() ?: 0,
+        pakanGram = child("pakanGram").intValue() ?: 0,
+        mortalitas = child("mortalitas").intValue() ?: 0,
+        catatan = child("catatan").stringValue().orEmpty(),
+        createdAt = child("createdAt").longValue() ?: 0L
+    )
 }
 
 private fun DataSnapshot.toHistoryPoint(fallbackIndex: Int): HistoryPoint? {

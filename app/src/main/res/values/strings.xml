@@ -5,6 +5,7 @@
     <string name="nav_sensor">Sensor</string>
     <string name="nav_riwayat">Riwayat</string>
     <string name="nav_warning">Peringatan</string>
+    <string name="recording_section_title">Pencatatan Lapangan</string>
 
     <string name="realtime_title">Realtime Data Kolam Aquaponik</string>
     <string name="label_kolam_terpilih">Kolam Terpilih</string>
@@ -41,6 +42,7 @@
     <string name="title_riwayat">Riwayat Kondisi</string>
     <string name="title_sensor">Detail Sensor</string>
     <string name="title_warning">Pusat Peringatan</string>
+    <string name="title_fish_panel">Panel Ikan</string>
 
     <string name="header_location">Cibiru Wetan, Bandung</string>
     <string name="content_description_loading">Memuat data kolam</string>
@@ -55,5 +57,21 @@
     <string name="notification_alert_channel_description">Notifikasi kondisi kolam aquaponik</string>
     <string name="notification_default_title">Peringatan Kolam</string>
     <string name="notification_default_body">Ada masalah di kolam aquaponik</string>
+    <string name="fish_panel_action_title">Catatan Ikan</string>
+    <string name="fish_panel_action_description">Jumlah ikan, pakan, dan kematian harian</string>
+    <string name="fish_panel_total_record">Ikan Terakhir Tercatat</string>
+    <string name="fish_unit_tail">ekor</string>
+    <string name="fish_panel_form_title">Tambah Catatan Ikan</string>
+    <string name="fish_panel_total_label">Jumlah ikan hidup</string>
+    <string name="fish_panel_feed_label">Pakan hari ini (gram)</string>
+    <string name="fish_panel_mortality_label">Ikan mati hari ini</string>
+    <string name="label_notes">Catatan</string>
+    <string name="action_save_fish_panel">Simpan Catatan Ikan</string>
+    <string name="fish_panel_history_title">Riwayat Panel Ikan</string>
+    <string name="fish_panel_empty">Belum ada catatan ikan untuk kolam ini</string>
+    <string name="fish_panel_total_value">%1$d ekor ikan</string>
+    <string name="fish_panel_feed_value">%1$d gram pakan</string>
+    <string name="fish_panel_mortality_value">%1$d ekor mati</string>
+    <string name="form_error_required_numbers">Jumlah ikan dan pakan wajib diisi dengan angka</string>
 
 </resources>

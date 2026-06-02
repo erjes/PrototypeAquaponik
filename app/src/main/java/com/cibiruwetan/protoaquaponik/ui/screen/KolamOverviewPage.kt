@@ -2,6 +2,7 @@ package com.cibiruwetan.protoaquaponik.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -30,6 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cibiruwetan.protoaquaponik.R
 import com.cibiruwetan.protoaquaponik.ui.components.KolamCard
+import com.cibiruwetan.protoaquaponik.ui.components.RecordingActionCard
 import com.cibiruwetan.protoaquaponik.ui.theme.BackgroundLight
 import com.cibiruwetan.protoaquaponik.ui.theme.ToscaPrimary
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.KolamViewModel
@@ -89,9 +93,37 @@ fun KolamOverviewPage(
                 CircularProgressIndicator(color = ToscaPrimary, strokeWidth = 3.dp)
             }
         } else {
+            val activeKolamId = sharedViewModel.selectedKolamId.value.ifBlank {
+                listKolam.firstOrNull()?.id.orEmpty()
+            }
+
             LazyColumn(
-                contentPadding = PaddingValues(bottom = 16.dp)
+                contentPadding = PaddingValues(bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                item {
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Text(
+                            text = stringResource(R.string.recording_section_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        RecordingActionCard(
+                            title = stringResource(R.string.fish_panel_action_title),
+                            description = stringResource(R.string.fish_panel_action_description),
+                            icon = Icons.Default.WaterDrop,
+                            enabled = activeKolamId.isNotBlank(),
+                            onClick = {
+                                sharedViewModel.updateSelectedKolam(activeKolamId)
+                                navController.navigate("ikan/$activeKolamId")
+                            }
+                        )
+                    }
+                }
+
                 items(listKolam) { kolam ->
                     KolamCard(
                         kolam = kolam,
