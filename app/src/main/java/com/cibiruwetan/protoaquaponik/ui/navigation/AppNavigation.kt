@@ -62,7 +62,16 @@ fun AppNavigation(
             )
         }
 
-        composable(Screen.Riwayat.route) {
+        composable(
+            route = Screen.Riwayat.route,
+            arguments = listOf(navArgument("kolamId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val idFromArgs = backStackEntry.arguments?.getString("kolamId")
+
+            LaunchedEffect(idFromArgs) {
+                idFromArgs?.let { sharedViewModel.updateSelectedKolam(it) }
+            }
+
             RiwayatPage(navController = navController, sharedViewModel = sharedViewModel)
         }
 
