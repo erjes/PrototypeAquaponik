@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.cibiruwetan.protoaquaponik.ui.screen.KolamOverviewPage
 import com.cibiruwetan.protoaquaponik.ui.screen.FishPanelPage
+import com.cibiruwetan.protoaquaponik.ui.screen.HarvestNotePage
 import com.cibiruwetan.protoaquaponik.ui.screen.RealtimePage
 import com.cibiruwetan.protoaquaponik.ui.screen.PlantHarvestPage
 import com.cibiruwetan.protoaquaponik.ui.screen.RiwayatPage
@@ -105,6 +106,17 @@ fun AppNavigation(
             }
 
             PlantHarvestPage(sharedViewModel = sharedViewModel)
+        }
+
+        composable(
+            route = Screen.HarvestNote.route,
+            arguments = listOf(navArgument("kolamId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val idFromArgs = backStackEntry.arguments?.getString("kolamId")
+            LaunchedEffect(idFromArgs) {
+                idFromArgs?.let { sharedViewModel.updateSelectedKolam(it) }
+            }
+            HarvestNotePage(sharedViewModel = sharedViewModel)
         }
     }
 }

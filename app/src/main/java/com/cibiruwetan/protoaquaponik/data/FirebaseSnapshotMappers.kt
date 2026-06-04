@@ -2,6 +2,7 @@ package com.cibiruwetan.protoaquaponik.data
 
 import com.cibiruwetan.protoaquaponik.model.HistoryPoint
 import com.cibiruwetan.protoaquaponik.model.FishPanelRecord
+import com.cibiruwetan.protoaquaponik.model.HarvestNote
 import com.cibiruwetan.protoaquaponik.model.Kolam
 import com.cibiruwetan.protoaquaponik.model.KolamTelemetry
 import com.cibiruwetan.protoaquaponik.model.PlantHarvestRecord
@@ -175,6 +176,18 @@ private fun DataSnapshot.doubleValue(): Double? {
     }
 }
 
+fun DataSnapshot.toHarvestNote(): HarvestNote {
+    return HarvestNote(
+        id = key.orEmpty(),
+        kolamId = child("kolamId").stringValue().orEmpty(),
+        jenisPanen = child("jenisPanen").stringValue().orEmpty(),
+        namaPanen = child("namaPanen").stringValue().orEmpty(),
+        beratKg = child("beratKg").doubleValue() ?: 0.0,
+        tanggalPanen = child("tanggalPanen").longValue() ?: 0L,
+        deskripsi = child("deskripsi").stringValue().orEmpty(),
+        createdAt = child("createdAt").longValue() ?: 0L
+    )
+}
 private const val LAST_24_HOURS_MILLIS = 24L * 60L * 60L * 1000L
 private const val MIN_REAL_TIMESTAMP = 1_000_000_000_000L
 private const val MAX_CHART_POINTS = 24

@@ -1,33 +1,15 @@
 package com.cibiruwetan.protoaquaponik.ui.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.WaterDrop
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -39,11 +21,11 @@ import com.cibiruwetan.protoaquaponik.R
 import com.cibiruwetan.protoaquaponik.model.FishPanelRecord
 import com.cibiruwetan.protoaquaponik.ui.components.SensorMetricCard
 import com.cibiruwetan.protoaquaponik.ui.theme.BackgroundLight
+import com.cibiruwetan.protoaquaponik.ui.theme.ToscaPrimary
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.FishPanelViewModel
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.SharedViewModel
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun FishPanelPage(
@@ -82,39 +64,98 @@ fun FishPanelPage(
         }
 
         item {
-            FishPanelForm(
-                jumlahIkan = jumlahIkan,
-                pakanGram = pakanGram,
-                mortalitas = mortalitas,
-                catatan = catatan,
-                errorTextRes = errorTextRes,
-                onJumlahIkanChange = { jumlahIkan = it.filter(Char::isDigit) },
-                onPakanGramChange = { pakanGram = it.filter(Char::isDigit) },
-                onMortalitasChange = { mortalitas = it.filter(Char::isDigit) },
-                onCatatanChange = { catatan = it },
-                onSaveClick = {
-                    val jumlah = jumlahIkan.toIntOrNull()
-                    val pakan = pakanGram.toIntOrNull()
-                    val mati = mortalitas.toIntOrNull() ?: 0
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(2.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.fish_panel_form_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1A1A2E)
+                    )
 
-                    if (jumlah == null || pakan == null) {
-                        errorTextRes = R.string.form_error_required_numbers
-                    } else {
-                        viewModel.addRecord(
-                            kolamId = kolamId,
-                            jumlahIkan = jumlah,
-                            pakanGram = pakan,
-                            mortalitas = mati,
-                            catatan = catatan.trim()
+                    OutlinedTextField(
+                        value = jumlahIkan,
+                        onValueChange = { jumlahIkan = it.filter(Char::isDigit) },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.fish_panel_total_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    OutlinedTextField(
+                        value = pakanGram,
+                        onValueChange = { pakanGram = it.filter(Char::isDigit) },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.fish_panel_feed_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    OutlinedTextField(
+                        value = mortalitas,
+                        onValueChange = { mortalitas = it.filter(Char::isDigit) },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.fish_panel_mortality_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    OutlinedTextField(
+                        value = catatan,
+                        onValueChange = { catatan = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.label_notes)) },
+                        minLines = 2,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    if (errorTextRes != 0) {
+                        Text(
+                            text = stringResource(errorTextRes),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
                         )
-                        jumlahIkan = ""
-                        pakanGram = ""
-                        mortalitas = ""
-                        catatan = ""
-                        errorTextRes = 0
+                    }
+
+                    Button(
+                        onClick = {
+                            val jumlah = jumlahIkan.toIntOrNull()
+                            val pakan = pakanGram.toIntOrNull()
+                            val mati = mortalitas.toIntOrNull() ?: 0
+                            if (jumlah == null || pakan == null) {
+                                errorTextRes = R.string.form_error_required_numbers
+                            } else {
+                                viewModel.addRecord(
+                                    kolamId = kolamId,
+                                    jumlahIkan = jumlah,
+                                    pakanGram = pakan,
+                                    mortalitas = mati,
+                                    catatan = catatan.trim()
+                                )
+                                jumlahIkan = ""; pakanGram = ""; mortalitas = ""; catatan = ""; errorTextRes = 0
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = ToscaPrimary)
+                    ) {
+                        Text(
+                            stringResource(R.string.action_save_fish_panel),
+                            fontWeight = FontWeight.SemiBold
+                        )
                     }
                 }
-            )
+            }
         }
 
         item {
@@ -122,6 +163,7 @@ fun FishPanelPage(
                 text = stringResource(R.string.fish_panel_history_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
+                color = Color(0xFF1A1A2E),
                 modifier = Modifier.padding(top = 4.dp)
             )
         }
@@ -144,101 +186,20 @@ fun FishPanelPage(
 }
 
 @Composable
-private fun FishPanelForm(
-    jumlahIkan: String,
-    pakanGram: String,
-    mortalitas: String,
-    catatan: String,
-    errorTextRes: Int,
-    onJumlahIkanChange: (String) -> Unit,
-    onPakanGramChange: (String) -> Unit,
-    onMortalitasChange: (String) -> Unit,
-    onCatatanChange: (String) -> Unit,
-    onSaveClick: () -> Unit
-) {
+private fun FishPanelRecordCard(record: FishPanelRecord) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.fish_panel_form_title),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-
-            OutlinedTextField(
-                value = jumlahIkan,
-                onValueChange = onJumlahIkanChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.fish_panel_total_label)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true
-            )
-
-            OutlinedTextField(
-                value = pakanGram,
-                onValueChange = onPakanGramChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.fish_panel_feed_label)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true
-            )
-
-            OutlinedTextField(
-                value = mortalitas,
-                onValueChange = onMortalitasChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.fish_panel_mortality_label)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true
-            )
-
-            OutlinedTextField(
-                value = catatan,
-                onValueChange = onCatatanChange,
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.label_notes)) },
-                minLines = 2
-            )
-
-            if (errorTextRes != 0) {
-                Text(
-                    text = stringResource(errorTextRes),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
-
-            Button(
-                onClick = onSaveClick,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.action_save_fish_panel))
-            }
-        }
-    }
-}
-
-@Composable
-private fun FishPanelRecordCard(record: FishPanelRecord) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(
                 text = formatRecordTime(record.createdAt),
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.labelSmall,
                 color = Color.Gray
             )
             Row(
@@ -247,22 +208,33 @@ private fun FishPanelRecordCard(record: FishPanelRecord) {
             ) {
                 Text(
                     text = stringResource(R.string.fish_panel_total_value, record.jumlahIkan),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A2E)
                 )
-                Text(
-                    text = stringResource(R.string.fish_panel_feed_value, record.pakanGram),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = ToscaPrimary.copy(alpha = 0.1f)
+                ) {
+                    Text(
+                        text = stringResource(R.string.fish_panel_feed_value, record.pakanGram),
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = ToscaPrimary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
             Text(
                 text = stringResource(R.string.fish_panel_mortality_value, record.mortalitas),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray
             )
             if (record.catatan.isNotBlank()) {
+                HorizontalDivider(color = Color(0xFFF0F0F0))
                 Text(
                     text = record.catatan,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
             }

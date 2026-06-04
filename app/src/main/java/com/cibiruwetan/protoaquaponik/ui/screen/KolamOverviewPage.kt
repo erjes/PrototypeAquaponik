@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -121,6 +122,16 @@ fun KolamOverviewPage(
                                 navController.navigate("panen/$activeKolamId")
                             }
                         )
+                        Button(
+                            onClick = {
+                                sharedViewModel.updateSelectedKolam(activeKolamId)
+                                navController.navigate("harvest_note/$activeKolamId")
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = activeKolamId.isNotBlank()
+                        ) {
+                            Text("📋 Catatan Panen")
+                        }
                     }
                 }
 

@@ -31,6 +31,7 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
         currentRoute?.startsWith("panen") == true -> stringResource(R.string.title_plant_harvest)
         currentRoute?.startsWith("sensor") == true -> stringResource(R.string.title_sensor)
         currentRoute?.startsWith("realtime") == true -> stringResource(R.string.realtime_title)
+        currentRoute?.startsWith("harvest_note") == true -> "Catatan Panen"
         else -> stringResource(R.string.app_name)
     }
 
@@ -40,9 +41,12 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
             currentRoute == Screen.Riwayat.route ||
             currentRoute == Screen.Warning.route ||
             currentRoute?.startsWith("ikan") == true ||
+            currentRoute?.startsWith("harvest_note") == true
+
+    val showBottomBar = currentRoute == Screen.KolamOverview.route ||
+            isMonitoringPage ||
             currentRoute?.startsWith("panen") == true
 
-    val showBottomBar = currentRoute == Screen.KolamOverview.route || isMonitoringPage
     val showDropdown = isMonitoringPage && sharedViewModel.daftarKolam.isNotEmpty()
     val selectedKolamLabel = when {
         sharedViewModel.isLoadingKolam.value -> stringResource(R.string.content_description_loading)
