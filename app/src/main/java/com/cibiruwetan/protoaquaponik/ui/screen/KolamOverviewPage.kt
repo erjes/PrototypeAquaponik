@@ -57,26 +57,28 @@ fun KolamOverviewPage(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = ToscaPrimary,
-            shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+            shape = RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp),
+            shadowElevation = 6.dp
         ) {
             Column(
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp)
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 28.dp)
             ) {
                 Text(
                     text = stringResource(R.string.header_location),
                     style = MaterialTheme.typography.titleMedium,
-                    color = Color.White,
-                    fontWeight = FontWeight.Medium
+                    color = Color.White.copy(alpha = 0.95f),
+                    fontWeight = FontWeight.SemiBold
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Surface(
-                    color = Color.White.copy(alpha = 0.2f),
+                    color = Color.White.copy(alpha = 0.18f),
                     shape = CircleShape
                 ) {
                     Text(
                         text = stringResource(R.string.tag_kolam),
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.White,
                         fontWeight = FontWeight.Bold
@@ -100,8 +102,8 @@ fun KolamOverviewPage(
             }
 
             LazyColumn(
-                contentPadding = PaddingValues(bottom = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
                     Column(
@@ -122,16 +124,6 @@ fun KolamOverviewPage(
                                 navController.navigate("panen/$activeKolamId")
                             }
                         )
-                        Button(
-                            onClick = {
-                                sharedViewModel.updateSelectedKolam(activeKolamId)
-                                navController.navigate("harvest_note/$activeKolamId")
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            enabled = activeKolamId.isNotBlank()
-                        ) {
-                            Text("📋 Catatan Panen")
-                        }
                     }
                 }
 

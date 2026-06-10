@@ -101,9 +101,10 @@ fun SensorPage(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = ToscaPrimary,
-            shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+            shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp),
+            shadowElevation = 6.dp
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(20.dp)) {
                 Text(
                     text = stringResource(R.string.last_update, lastUpdate),
                     color = Color.White.copy(alpha = 0.9f),
@@ -120,8 +121,8 @@ fun SensorPage(
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            contentPadding = PaddingValues(18.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item {
                 Text(

@@ -70,7 +70,8 @@ fun RealtimePage(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = ToscaPrimary,
-            shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+            shape = RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp),
+            shadowElevation = 6.dp
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
                 Text(
@@ -104,13 +105,13 @@ fun RealtimePage(
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(24.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     elevation = CardDefaults.cardElevation(4.dp)
                 ) {
                     Box(
                         modifier = Modifier
-                            .padding(24.dp)
+                            .padding(28.dp)
                             .fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {

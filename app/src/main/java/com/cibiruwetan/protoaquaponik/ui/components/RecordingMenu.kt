@@ -56,7 +56,9 @@ fun RecordingMenu(
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Max),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 RecordingMenuItem(
@@ -65,15 +67,20 @@ fun RecordingMenu(
                     icon = fishIcon,
                     enabled = enabled,
                     onClick = onFishHarvestClick,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
                 )
+
                 RecordingMenuItem(
                     title = stringResource(R.string.harvest_action_title),
                     description = stringResource(R.string.harvest_action_description),
                     icon = plantIcon,
                     enabled = enabled,
                     onClick = onPlantHarvestClick,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
                 )
             }
         }

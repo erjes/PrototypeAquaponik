@@ -40,7 +40,7 @@
     <string name="label_time_unknown">Waktu tidak tersedia</string>
 
 
-    <string name="title_beranda">Beranda Aquaponik</string>
+    <string name="title_beranda">PonikCare</string>
     <string name="title_riwayat">Riwayat Kondisi</string>
     <string name="title_sensor">Detail Sensor</string>
     <string name="title_warning">Pusat Peringatan</string>
@@ -67,9 +67,9 @@
     <string name="fish_panel_total_record">Panen Ikan Terakhir</string>
     <string name="fish_unit_tail">ekor</string>
     <string name="fish_panel_form_title">Tambah Catatan Panen Ikan</string>
-    <string name="fish_panel_total_label">Jumlah ikan hidup</string>
-    <string name="fish_panel_feed_label">Pakan hari ini (gram)</string>
-    <string name="fish_panel_mortality_label">Ikan mati hari ini</string>
+    <string name="fish_panel_total_label">Jenis ikan</string>
+    <string name="fish_panel_feed_label">Tanggal panen</string>
+    <string name="fish_panel_mortality_label">Total Panen</string>
     <string name="label_notes">Catatan</string>
     <string name="action_save_fish_panel">Simpan Panen Ikan</string>
     <string name="fish_panel_history_title">Riwayat Panen Ikan</string>
@@ -79,7 +79,7 @@
     <string name="fish_panel_mortality_value">%1$d ekor mati</string>
     <string name="form_error_required_numbers">Jumlah ikan dan pakan wajib diisi dengan angka</string>
     <string name="harvest_action_title">Panen Tanaman</string>
-    <string name="harvest_action_description">Catat jenis tanaman, berat, dan jumlah ikat</string>
+    <string name="harvest_action_description">Tanaman, berat, dan jumlah ikat</string>
     <string name="harvest_total_record">Total Panen Tercatat</string>
     <string name="harvest_weight_value">%.1f kg</string>
     <string name="harvest_bundle_unit_value">%1$d ikat</string>

@@ -79,10 +79,10 @@ fun DataSnapshot.toTdsWarningLogs(
 fun DataSnapshot.toFishPanelRecord(): FishPanelRecord {
     return FishPanelRecord(
         id = key.orEmpty(),
-        jumlahIkan = child("jumlahIkan").intValue() ?: 0,
-        pakanGram = child("pakanGram").intValue() ?: 0,
-        mortalitas = child("mortalitas").intValue() ?: 0,
-        catatan = child("catatan").stringValue().orEmpty(),
+        jenisIkan = child(" Jenis Ikan").stringValue().orEmpty(),
+        tanggalPanen = child("Tanggal Panen").intValue() ?: 0,
+        totalPanen = child("Total Panen").intValue() ?: 0,
+        catatan = child("Catatan").stringValue().orEmpty(),
         createdAt = child("createdAt").longValue() ?: 0L
     )
 }

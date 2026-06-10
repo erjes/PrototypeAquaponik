@@ -35,9 +35,9 @@ fun FishPanelPage(
     val kolamId by sharedViewModel.selectedKolamId
     val records by viewModel.records.collectAsState()
 
-    var jumlahIkan by remember { mutableStateOf("") }
-    var pakanGram by remember { mutableStateOf("") }
-    var mortalitas by remember { mutableStateOf("") }
+    var jenisIkan by remember { mutableStateOf("") }
+    var tanggalPanen by remember { mutableStateOf("") }
+    var totalPanen by remember { mutableStateOf("") }
     var catatan by remember { mutableStateOf("") }
     var errorTextRes by remember { mutableIntStateOf(0) }
 
@@ -50,16 +50,16 @@ fun FishPanelPage(
         modifier = Modifier
             .fillMaxSize()
             .background(BackgroundLight),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 16.dp, bottom = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item {
             SensorMetricCard(
                 label = stringResource(R.string.fish_panel_total_record),
-                value = records.firstOrNull()?.jumlahIkan?.toString() ?: "0",
+                value = records.firstOrNull()?.jenisIkan?.toString() ?: "0",
                 unit = stringResource(R.string.fish_unit_tail),
                 icon = Icons.Default.WaterDrop,
-                isNormal = records.firstOrNull()?.mortalitas.orZero() == 0
+                isNormal = records.firstOrNull()?.totalPanen.orZero() == 0
             )
         }
 
@@ -82,17 +82,16 @@ fun FishPanelPage(
                     )
 
                     OutlinedTextField(
-                        value = jumlahIkan,
-                        onValueChange = { jumlahIkan = it.filter(Char::isDigit) },
+                        value = jenisIkan,
+                        onValueChange = { jenisIkan = it.filter(Char::isDigit) },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(stringResource(R.string.fish_panel_total_label)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true,
                         shape = RoundedCornerShape(12.dp)
                     )
                     OutlinedTextField(
-                        value = pakanGram,
-                        onValueChange = { pakanGram = it.filter(Char::isDigit) },
+                        value = tanggalPanen,
+                        onValueChange = { tanggalPanen = it.filter(Char::isDigit) },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(stringResource(R.string.fish_panel_feed_label)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -100,8 +99,8 @@ fun FishPanelPage(
                         shape = RoundedCornerShape(12.dp)
                     )
                     OutlinedTextField(
-                        value = mortalitas,
-                        onValueChange = { mortalitas = it.filter(Char::isDigit) },
+                        value = totalPanen,
+                        onValueChange = { totalPanen = it.filter(Char::isDigit) },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(stringResource(R.string.fish_panel_mortality_label)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -127,9 +126,9 @@ fun FishPanelPage(
 
                     Button(
                         onClick = {
-                            val jumlah = jumlahIkan.toIntOrNull()
-                            val pakan = pakanGram.toIntOrNull()
-                            val mati = mortalitas.toIntOrNull() ?: 0
+                            val jumlah = jenisIkan.toIntOrNull()
+                            val pakan = tanggalPanen.toIntOrNull()
+                            val mati = totalPanen.toIntOrNull() ?: 0
                             if (jumlah == null || pakan == null) {
                                 errorTextRes = R.string.form_error_required_numbers
                             } else {
@@ -140,7 +139,7 @@ fun FishPanelPage(
                                     mortalitas = mati,
                                     catatan = catatan.trim()
                                 )
-                                jumlahIkan = ""; pakanGram = ""; mortalitas = ""; catatan = ""; errorTextRes = 0
+                                jenisIkan = ""; tanggalPanen = ""; totalPanen = ""; catatan = ""; errorTextRes = 0
                             }
                         },
                         modifier = Modifier
@@ -207,7 +206,7 @@ private fun FishPanelRecordCard(record: FishPanelRecord) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.fish_panel_total_value, record.jumlahIkan),
+                    text = stringResource(R.string.fish_panel_total_value, record.jenisIkan),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1A1A2E)
@@ -217,7 +216,7 @@ private fun FishPanelRecordCard(record: FishPanelRecord) {
                     color = ToscaPrimary.copy(alpha = 0.1f)
                 ) {
                     Text(
-                        text = stringResource(R.string.fish_panel_feed_value, record.pakanGram),
+                        text = stringResource(R.string.fish_panel_feed_value, record.tanggalPanen),
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelLarge,
                         color = ToscaPrimary,
@@ -226,7 +225,7 @@ private fun FishPanelRecordCard(record: FishPanelRecord) {
                 }
             }
             Text(
-                text = stringResource(R.string.fish_panel_mortality_value, record.mortalitas),
+                text = stringResource(R.string.fish_panel_mortality_value, record.totalPanen),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )

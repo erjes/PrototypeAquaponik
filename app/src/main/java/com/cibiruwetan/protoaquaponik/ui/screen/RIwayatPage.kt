@@ -2,6 +2,7 @@ package com.cibiruwetan.protoaquaponik.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -68,8 +69,9 @@ fun RiwayatPage(
         ) {
             Text(
                 text = stringResource(R.string.label_grafik_ppm),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1A1A2E)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -78,6 +80,7 @@ fun RiwayatPage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(320.dp),
+                shape = RoundedCornerShape(24.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(4.dp)
             ) {
@@ -90,7 +93,7 @@ fun RiwayatPage(
                     modelProducer = modelProducer,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                        .padding(18.dp),
                     placeholder = {
                         Box(
                             modifier = Modifier.fillMaxSize(),

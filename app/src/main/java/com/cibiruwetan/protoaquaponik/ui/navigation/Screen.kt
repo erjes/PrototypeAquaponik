@@ -8,6 +8,5 @@ sealed class Screen(val route: String) {
     object Warning : Screen("peringatan")
     object FishPanel : Screen("ikan/{kolamId}")
     object PlantHarvest : Screen("panen/{kolamId}")
-    object HarvestNote : Screen("harvest_note/{kolamId}")
 }
 

@@ -1,5 +1,10 @@
 package com.cibiruwetan.protoaquaponik.ui.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,6 +19,7 @@ import com.cibiruwetan.protoaquaponik.ui.components.BaseTopAppBar
 import com.cibiruwetan.protoaquaponik.ui.components.BottomNavigationBar
 import com.cibiruwetan.protoaquaponik.ui.navigation.AppNavigation
 import com.cibiruwetan.protoaquaponik.ui.navigation.Screen
+import com.cibiruwetan.protoaquaponik.ui.theme.BackgroundLight
 import com.cibiruwetan.protoaquaponik.ui.viewmodel.SharedViewModel
 
 @Composable
@@ -31,7 +37,6 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
         currentRoute?.startsWith("panen") == true -> stringResource(R.string.title_plant_harvest)
         currentRoute?.startsWith("sensor") == true -> stringResource(R.string.title_sensor)
         currentRoute?.startsWith("realtime") == true -> stringResource(R.string.realtime_title)
-        currentRoute?.startsWith("harvest_note") == true -> "Catatan Panen"
         else -> stringResource(R.string.app_name)
     }
 
@@ -40,8 +45,7 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
     val isMonitoringPage = currentRoute?.startsWith("sensor") == true ||
             currentRoute == Screen.Riwayat.route ||
             currentRoute == Screen.Warning.route ||
-            currentRoute?.startsWith("ikan") == true ||
-            currentRoute?.startsWith("harvest_note") == true
+            currentRoute?.startsWith("ikan") == true
 
     val showBottomBar = currentRoute == Screen.KolamOverview.route ||
             isMonitoringPage ||
@@ -56,6 +60,7 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
     }
 
     Scaffold(
+        containerColor = BackgroundLight,
         topBar = {
             BaseTopAppBar(
                 title = title,
@@ -68,7 +73,11 @@ fun MainPage(sharedViewModel: SharedViewModel = viewModel()) {
             )
         },
         bottomBar = {
-            if (showBottomBar) {
+            AnimatedVisibility(
+                visible = showBottomBar,
+                enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
+                exit = slideOutVertically(targetOffsetY = { it }) + fadeOut()
+            ) {
                 BottomNavigationBar(navController, sharedViewModel)
             }
         }
